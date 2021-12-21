@@ -3,8 +3,8 @@ from dwave.system.samplers import DWaveSampler
 from dwave.system.composites import EmbeddingComposite
 
 sampler = EmbeddingComposite(DWaveSampler())
-sampler = EmbeddingComposite(DWaveSampler(solver='DW_2000Q_6'))
-sampler = EmbeddingComposite(DWaveSampler(solver=dict(topology__type='pegasus')))
+# sampler = EmbeddingComposite(DWaveSampler(solver='DW_2000Q_6'))
+# sampler = EmbeddingComposite(DWaveSampler(solver=dict(topology__type='pegasus')))
 
 ##############################################################
 ##  horario     --> 1: Trabajo      0: fuera de horario
@@ -19,7 +19,7 @@ def planifica(horario, ubicacion, duracion, asistencia):
         return (ubicacion and asistencia)
     else:
         # Fuera de horario
-        return (not ubicacion and duracion)
+        return (not ubicacion and not duracion)
 
 csp = dwavebinarycsp.ConstraintSatisfactionProblem(dwavebinarycsp.BINARY)
 csp.add_constraint(planifica, ['horario', 'ubicacion', 'duracion', 'asistencia'])
