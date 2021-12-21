@@ -6,11 +6,11 @@ sampler = EmbeddingComposite(DWaveSampler())
 
 def scheduling(time, location, length, mandatory):
     if time: 
-        # Business Hours
+        # En horas de Oficina
         return (location and mandatory)
     else:
-        # at home
-        return ((not location) and mandatory)
+        # Fuera de horario
+        return (not location and not length)
 
 csp = dwavebinarycsp.ConstraintSatisfactionProblem(dwavebinarycsp.BINARY)
 csp.add_constraint(scheduling, ['time', 'location', 'length', 'mandatory'])
@@ -27,10 +27,10 @@ print(response)
 total = 0
 for sample, energy, occurences in response.data(['sample', 'energy', 'num_occurrences']):
     total = total + occurences
-    if energy == min_energy:
-        time = 'business hours' if sample['time'] else 'evenings'
-        location = 'office' if sample['location'] else 'home'
-        length = 'short' if sample['length'] else 'long'
-        mandatory = 'mandatory' if sample['mandatory'] else 'optional'
-        print("{}: During {} at {}, you can schedule a {} meeting that is {}"
+    # if energy == min_energy:
+    time = 'business hours' if sample['time'] else 'evenings'
+    location = 'office' if sample['location'] else 'home'
+    length = 'short' if sample['length'] else 'long'
+    mandatory = 'mandatory' if sample['mandatory'] else 'optional'
+    print("{}: During {} at {}, you can schedule a {} meeting that is {}"
                 .format(occurences, time, location, length, mandatory))
