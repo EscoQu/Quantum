@@ -22,6 +22,8 @@ G.add_edge("4","6")
 G.add_edge("4","7")
 G.add_edge("2","8")
 G.add_edge("4","9")
+G.add_edge("7","8")
+G.add_edge("7","9")
 
 # Dibujar y almacenar el grafo
 nx.draw(G, with_labels = True)
