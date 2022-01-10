@@ -11,7 +11,8 @@
 import dwavebinarycsp
 from dwave.system.samplers import DWaveSampler
 from dwave.system.composites import EmbeddingComposite
-
+#para inspector
+import dwave.inspector
 sampler = EmbeddingComposite(DWaveSampler())
 #Estos otros samplers también podríamos utilizarlos, para ver a qué máquina 
 #cuántica acude nuestro envío y con qué topología de conexiones entre qubits:
@@ -49,10 +50,11 @@ bqm = dwavebinarycsp.stitch(csp)
 print(bqm.linear)
 print(bqm.quadratic)
 
-response = sampler.sample(bqm, num_reads = 5000)
+response = sampler.sample(bqm, num_reads = 1000)
 min_energy = next(response.data(['energy']))[0]
 
 print(response)
+dwave.inspector.show(response)
 
 total = 0
 for sample, energy, occurences in response.data(['sample', 'energy', 'num_occurrences']):
